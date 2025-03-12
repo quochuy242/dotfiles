@@ -13,7 +13,7 @@ fi
 
 # Visual Studio Code
 if [[ -x "$(command -v code)" ]]; then
-    alias vsc='windsurf --enable-features=UseOzonePlatform --ozone-platform=wayland' 
+    alias vsc='code' 
 fi
 
 # Zoxide
@@ -21,7 +21,7 @@ if [[ -x "$(command -v zoxide)" ]]; then
     alias cd='z'
 fi 
 
-# Exa
+# Eza
 if [[ -x "$(command -v eza)" ]]; then
     alias ll='eza -lha --icons=auto --sort=name --group-directories-first --all'
     alias lt='eza --icons=auto --tree --level=3'
@@ -56,9 +56,12 @@ fi
 if [[ -x "$(command -v git)" ]]; then
     alias gaa='git add .'
     alias gcm='git commit'
-    alias gp='git push'
+    alias gps='git push'
+    alias gpl='git pull'
     alias gst='git status'
     alias gitfastpush='git add . && git commit -m "fast push, no info" && git push origin master' # ! Only use it for master branch and commit without message
+    alias gb='git branch'
+    alias gco='git checkout'
 fi
 
 # Pacman
