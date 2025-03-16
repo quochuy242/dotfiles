@@ -1,4 +1,14 @@
-format = '$all'
+format = """
+$os\
+$username\
+$hostname\
+$directory\
+$python\
+$git_branch$git_commit$git_state$git_status\
+$cmd_duration\
+$line_break\
+$character"""
+
 command_timeout = 360000
 
 [time]
@@ -26,8 +36,8 @@ symbol = " "
 
 [directory]
 read_only = " 󰌾"
-truncation_length = 5
-truncation_symbol = '…/'
+truncation_length = 8
+truncation_symbol = '.../'
 
 [docker_context]
 symbol = " "
@@ -46,9 +56,26 @@ symbol = " "
 
 [git_branch]
 symbol = " "
+format = "| [$symbol$branch]($style) "
 
 [git_commit]
-tag_symbol = '  '
+tag_symbol = ' '
+format = '[\($hash$tag\)]($style) '
+
+[git_status]
+format = "[(\\[$conflicted$staged$modified$deleted$renamed$untracked$stashed$ahead_behind\\])]($white)"
+
+ahead    = "↑${count}"
+diverged = "↑${ahead_count}↓${behind_count}"
+behind   = "↓${count}"
+
+conflicted = "[✖ $count ](bold red)"
+staged     = "[✚ $count](green)"
+modified   = "[✚ $count](bold blue)"
+deleted    = "[- $count](red)"
+renamed    = "[» $count](green)"
+untracked  = "[?? $count](cyan)"
+stashed    = "[⚑ $count](bold blue)"
 
 [golang]
 symbol = " "
@@ -67,6 +94,9 @@ symbol = " "
 
 [hostname]
 ssh_symbol = " "
+ssh_only = true
+format = "[$hostname]($style) " 
+style = "blue"
 
 [java]
 symbol = " "
@@ -144,7 +174,7 @@ Void = " "
 Windows = "󰍲 "
 
 [os]
-disabled = true
+disabled = false
 
 [package]
 symbol = "󰏗 "
@@ -160,8 +190,7 @@ symbol = " "
 
 [python]
 symbol = " "
-format = 'via [${symbol}${pyenv_prefix}(${version} ) ]($style)'
-
+format = '| [${symbol}(${version} )]($style)'
 
 [rlang]
 symbol = "󰟔 "
@@ -183,3 +212,9 @@ symbol = " "
 
 [gradle]
 symbol = " "
+
+[cmd_duration]
+format = "[$cmd_duration]($style) "
+style = "yellow"
+
+[username]

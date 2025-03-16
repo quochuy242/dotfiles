@@ -136,10 +136,11 @@ fi
 
 # Setup dotfiles
 print_section "Setting up dotfiles with stow"
-if [ -d "$HOME/dotfiles" ]; then
-    cd "$HOME/dotfiles" && stow .
+if [ -f ".stowrc" ]; then
+    print_section "Running stow"
+    stow .
 else
-    print_section "No dotfiles directory found, skipping stow"
+    print_section "No .stowrc found, skipping stow"
 fi
 
 # Setup zsh

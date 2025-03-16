@@ -8,7 +8,7 @@ NC='\033[0m' # No Color
 
 # Function for printing section headers
 print_section() {
-    echo -e "\n${BLUE}===${NC} ${GREEN}$1 ${NC}===\n"
+    echo -e "\n${BLUE}===${NC} ${GREEN}$1 ${BLUE}===\n"
 }
 
 # Function to check if a package is installed
@@ -28,17 +28,18 @@ sudo pacman -Syu --noconfirm
 print_section "Installing dependencies"
 sudo pacman -S --needed --noconfirm git base-devel
 
-# Check if yay is already installed
-if ! command -v yay &> /dev/null; then
-    print_section "Installing yay AUR helper"
-    git clone https://aur.archlinux.org/yay.git $HOME/yay
-    cd $HOME/yay
+# Check if paru is already installed
+if ! command -v paru &> /dev/null; then
+    print_section "Installing paru AUR helper"
+    git clone https://aur.archlinux.org/paru.git $HOME/paru
+    cd $HOME/paru
     makepkg -si --noconfirm
     cd ~
 else
-    print_section "yay is already installed"
+    print_section "paru is already installed"
 fi
 
+# Install packages
 print_section "Installing shell environments"
 sudo pacman -S --needed --noconfirm zsh
 
@@ -78,7 +79,6 @@ bat cache --build
 
 # Check if stow target exists
 print_section "Setting up dotfiles with stow"
-(cd ~/dotfiles && stow .)
 if [ -f ".stowrc" ]; then
     print_section "Running stow"
     stow .
@@ -89,7 +89,9 @@ fi
 # Setup zsh
 print_section "Setting up zsh"
 touch ~/.zshrc
-echo "source $HOME/dotfiles/zsh/main.zsh" >> ~/.zshrc
+if ! grep -qxF "source \$HOME/dotfiles/zsh/main.zsh" ~/.zshrc; then
+    echo "source \$HOME/dotfiles/zsh/main.zsh" >> ~/.zshrc
+fi
 
 print_section "Installation complete!"
 echo -e "${GREEN}All packages and tools have been installed.${NC}"

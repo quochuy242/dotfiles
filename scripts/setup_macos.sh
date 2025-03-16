@@ -26,6 +26,7 @@ else
     brew upgrade
 fi
 
+# Install packages
 print_section "Installing dependencies"
 brew install git stow
 
@@ -65,16 +66,19 @@ bat cache --build || true  # Ignore errors if bat cache isn't needed
 
 # Check if stow target exists
 print_section "Setting up dotfiles with stow"
-if [ -d "$HOME/dotfiles" ]; then
-    cd "$HOME/dotfiles" && stow .
+if [ -f ".stowrc" ]; then
+    print_section "Running stow"
+    stow .
 else
-    print_section "No dotfiles directory found, skipping stow"
+    print_section "No .stowrc found, skipping stow"
 fi
 
 # Setup zsh
 print_section "Setting up zsh"
 touch ~/.zshrc
-echo "source $HOME/dotfiles/zsh/main.zsh" >> ~/.zshrc
+if ! grep -qxF "source \$HOME/dotfiles/zsh/main.zsh" ~/.zshrc; then
+    echo "source \$HOME/dotfiles/zsh/main.zsh" >> ~/.zshrc
+fi
 
 print_section "Installation complete!"
 echo -e "${GREEN}All packages and tools have been installed.${NC}"
