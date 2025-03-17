@@ -1,9 +1,5 @@
 format = """
-$os\
-$username\
-$hostname\
-$directory\
-$python\
+$os{$username@$hostname}$directory$python\
 $git_branch$git_commit$git_state$git_status\
 $cmd_duration\
 $line_break\
@@ -11,10 +7,19 @@ $character"""
 
 command_timeout = 360000
 
+[character]
+success_symbol = '[](bold green) '
+error_symbol = '[](bold red) '
+vimcmd_symbol = '[](bold green) '
+vimcmd_replace_one_symbol = '[](bold purple)'
+vimcmd_replace_symbol = '[](bold purple)'
+vimcmd_visual_symbol = '[](bold yellow)'
+
 [time]
 format = '[$time]($style) '
 style = 'bold white'
 disabled = true
+
 
 [aws]
 symbol = "  "
@@ -36,8 +41,9 @@ symbol = " "
 
 [directory]
 read_only = " 󰌾"
-truncation_length = 8
+truncation_length = 3
 truncation_symbol = '.../'
+format = '\[[$path]($style)[$read_only]($read_only_style)\]'
 
 [docker_context]
 symbol = " "
@@ -56,7 +62,7 @@ symbol = " "
 
 [git_branch]
 symbol = " "
-format = "| [$symbol$branch]($style) "
+format = '\[[$symbol$branch]($style)\]'
 
 [git_commit]
 tag_symbol = ' '
@@ -94,9 +100,15 @@ symbol = " "
 
 [hostname]
 ssh_symbol = " "
-ssh_only = true
-format = "[$hostname]($style) " 
+ssh_only = false
+format = '[$ssh_symbol$hostname]($style)' 
 style = "blue"
+disabled = false
+
+[username]
+format = '[$user]($style)'
+show_always = true
+disabled = false
 
 [java]
 symbol = " "
@@ -190,7 +202,7 @@ symbol = " "
 
 [python]
 symbol = " "
-format = '| [${symbol}(${version} )]($style)'
+format = '\[[${symbol}${pyenv_prefix}(${version})(\($virtualenv\))]($style)\]'
 
 [rlang]
 symbol = "󰟔 "
@@ -217,4 +229,3 @@ symbol = " "
 format = "[$cmd_duration]($style) "
 style = "yellow"
 
-[username]
