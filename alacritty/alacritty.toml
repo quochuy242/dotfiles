@@ -1,5 +1,5 @@
 general.import = [
-    "~/.config/alacritty/tokyo-night.toml"
+    "~/.config/alacritty/catppuccin-mocha.toml"
 ]
 
 [env]
@@ -15,7 +15,7 @@ blur = true
 option_as_alt = "Both"
 
 [font]
-normal.family = "JetBrainsMono Nerd Font"
+normal.family = "SFMono Nerd Font Mono"
 size = 12
 
 [selection]
