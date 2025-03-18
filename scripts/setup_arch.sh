@@ -6,10 +6,17 @@ GREEN='\033[0;32m'
 BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
-# Function for printing section headers
+# Function for printing
 print_section() {
-    echo -e "\n${BLUE}===${NC} ${GREEN}$1 ${BLUE}===\n"
+    echo -e "\n${BLUE}===${NC} ${YELLOW}$1 ${BLUE}===\n"
 }
+print_info() {
+    echo -e "${NC} ${GREEN}$1${NC}\n"
+}
+print_subsection() {
+    echo -e "\n ${YELLOW}$1 ${NC}\n"
+}
+
 
 # Function to check if a package is installed
 is_installed() {
