@@ -40,22 +40,22 @@ format = '\[[$path]($style)[$read_only]($read_only_style)\]'
 
 [git_branch]
 symbol = " "
-format = '\[[$symbol$branch]($style)'
+format = '\[[$symbol$branch]($style)\]'
 
 [git_commit]
 tag_symbol = ' '
 format = '[\($hash$tag\)]($style) '
 
 [git_status]
-format = "[( $conflicted$staged$modified$deleted$renamed$untracked$stashed$ahead_behind\\])]($white)"
+format = "[(\\[$conflicted$staged$modified$deleted$renamed$untracked$stashed$ahead_behind\\])]($white)"
 
 ahead    = "↑${count}"
 diverged = "↑${ahead_count}↓${behind_count}"
 behind   = "↓${count}"
 
-conflicted = "[✖$count](bold red)"
-staged     = "[✚$count](green)"
-modified   = "[✚$count](bold blue)"
+conflicted = "[x$count](bold red)"
+staged     = "[+$count](green)"
+modified   = "[+$count](bold blue)"
 deleted    = "[-$count](red)"
 renamed    = "[»$count](green)"
 untracked  = "[?$count](cyan)"
