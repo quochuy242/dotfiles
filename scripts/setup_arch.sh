@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e  # Exit on error
+set -e # Exit on error
 
 # Set up colors for output
 GREEN='\033[0;32m'
@@ -8,26 +8,25 @@ NC='\033[0m' # No Color
 
 # Function for printing
 print_section() {
-    echo -e "\n${BLUE}===${NC} ${YELLOW}$1 ${BLUE}===\n"
+  echo -e "\n${BLUE}===${NC} ${YELLOW}$1 ${BLUE}===\n"
 }
 print_info() {
-    echo -e "${NC} ${GREEN}$1${NC}\n"
+  echo -e "${NC} ${GREEN}$1${NC}\n"
 }
 print_subsection() {
-    echo -e "\n ${YELLOW}$1 ${NC}\n"
+  echo -e "\n ${YELLOW}$1 ${NC}\n"
 }
-
 
 # Function to check if a package is installed
 is_installed() {
-    pacman -Qi "$1" &> /dev/null
+  pacman -Qi "$1" &>/dev/null
 }
 
 # Go Home
 cd ~
 
-# Create local bin directory if it doesn't exist
-mkdir -p ~/.local/bin
+# Create some directories if it doesn't exist
+mkdir -p ~/.local/bin ~/.cargo/env
 
 print_section "Updating system"
 sudo pacman -Syu --noconfirm
@@ -36,14 +35,14 @@ print_section "Installing dependencies"
 sudo pacman -S --needed --noconfirm git base-devel
 
 # Check if paru is already installed
-if ! command -v paru &> /dev/null; then
-    print_section "Installing paru AUR helper"
-    git clone https://aur.archlinux.org/paru.git $HOME/paru
-    cd $HOME/paru
-    makepkg -si --noconfirm
-    cd ~
+if ! command -v paru &>/dev/null; then
+  print_section "Installing paru AUR helper"
+  git clone https://aur.archlinux.org/paru.git $HOME/paru
+  cd $HOME/paru
+  makepkg -si --noconfirm
+  cd ~
 else
-    print_section "paru is already installed"
+  print_section "paru is already installed"
 fi
 
 # Install packages
@@ -63,7 +62,7 @@ print_section "Installing text editors and terminal multiplexers"
 sudo pacman -S --needed --noconfirm nano vim neovim tmux
 
 print_section "Installing file managers"
-sudo pacman -S --needed --noconfirm yazi
+sudo pacman -S --needed --noconfirm yazi superfile
 
 print_section "Installing terminal emulators"
 sudo pacman -S --needed --noconfirm kitty alacritty
@@ -71,13 +70,20 @@ sudo pacman -S --needed --noconfirm kitty alacritty
 print_section "Installing shell enhancements"
 sudo pacman -S --needed --noconfirm atuin starship
 
+print_section "Setup tmux"
+print_subsection "Install sesh - tmux session manager"
+paru -S sesh-bin gitmux
+sudo pacman -S --needed --noconfirm github-cli
+gh auth login # Login GitHub before installing extension
+gh extension install dlvhdr/gh-dash
+
 # Install TPM if not already installed
 if [ ! -d "$HOME/.config/tmux/plugins/tpm" ]; then
-    print_section "Installing Tmux Plugin Manager"
-    mkdir -p ~/.config/tmux/plugins/tpm 
-    git clone https://github.com/tmux-plugins/tpm ~/.config/tmux/plugins/tpm
+  print_section "Installing Tmux Plugin Manager"
+  mkdir -p ~/.config/tmux/plugins/tpm
+  git clone https://github.com/tmux-plugins/tpm ~/.config/tmux/plugins/tpm
 else
-    print_section "Tmux Plugin Manager is already installed"
+  print_section "Tmux Plugin Manager is already installed"
 fi
 
 # Setup bat cache
@@ -87,17 +93,18 @@ bat cache --build
 # Check if stow target exists
 print_section "Setting up dotfiles with stow"
 if [ -f ".stowrc" ]; then
-    print_section "Running stow"
-    stow .
+  print_section "Running stow"
+  cd $HOME/dotfiles
+  stow .
 else
-    print_section "No .stowrc found, skipping stow"
+  print_section "No .stowrc found, skipping stow"
 fi
 
 # Setup zsh
 print_section "Setting up zsh"
 touch ~/.zshrc
 if ! grep -qxF "source \$HOME/dotfiles/zsh/main.zsh" ~/.zshrc; then
-    echo "source \$HOME/dotfiles/zsh/main.zsh" >> ~/.zshrc
+  echo "source \$HOME/dotfiles/zsh/main.zsh" >>~/.zshrc
 fi
 
 print_section "Installation complete!"

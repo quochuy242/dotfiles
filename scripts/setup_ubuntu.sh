@@ -144,6 +144,7 @@ fi
 print_section "Setting up dotfiles with stow"
 if [ -f ".stowrc" ]; then
     print_section "Running stow"
+    cd $HOME/dotfiles
     stow .
 else
     print_section "No .stowrc found, skipping stow"

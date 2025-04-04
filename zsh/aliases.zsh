@@ -11,6 +11,14 @@ elif [[ -x "$(command -v vim)" ]]; then
 	alias vis='vim "+set si"'
 fi
 
+# Tmux
+if [[ -x "$(command -v tmux)" ]]; then 
+  alias tm='tmux'
+  alias tma='tmux a -t'
+  alias tml='tmux list-sessions'
+  alias tmd='tmux detach'
+fi
+
 # Visual Studio Code
 if [[ -x "$(command -v code)" ]]; then
     alias vsc='code' 
@@ -38,7 +46,7 @@ fi
 alias ..='cd ..'           # Up one directory
 alias ...='cd ../..'       # Up two directories
 alias ....='cd ../../..'   # Up three directories
-alias dot='cd $HOME/Clone/dotfiles/'  # Go to dotfiles
+alias dot='cd $HOME/dotfiles/'        # Go to dotfiles
 alias conf='cd $HOME/.config/'        # Go to config
 alias mkd='mkdir -pv'     # Create directories with verbose output
 alias rm='rm -iv'         # Remove files with interactive and verbose mode
@@ -49,6 +57,8 @@ alias mv='mv -iv'         # Move files with interactive and verbose mode
 # Python
 if [[ -x "$(command -v python3)" ]]; then
     alias py='python3'
+    alias pyac='source .venv/bin/activate'
+    alias pydeac='deactivate'
 fi
 
 
