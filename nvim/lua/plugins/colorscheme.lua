@@ -1,13 +1,5 @@
 return {
   {
-    "LazyVim/LazyVim",
-    opts = {
-      colorscheme = function()
-        require("catppuccin").load()
-      end,
-    },
-  },
-  {
     "catppuccin/nvim",
     name = "catppuccin",
     priority = 1000,
@@ -47,4 +39,10 @@ return {
       },
     },
   },
+  {
+    "LazyVim/LazyVim",
+    opts = {
+      colorscheme = "catppuccin",
+    },
+  }
 }
