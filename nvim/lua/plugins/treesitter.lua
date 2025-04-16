@@ -1,26 +1,10 @@
-return {
-  {
-    "nvim-treesitter/nvim-treesitter",
-    opts = {
-      ensure_installed = {
-        "bash",
-        "c",
-        "cpp",
-        "css",
-        "dockerfile",
-        "go",
-        "html",
-        "javascript",
-        "json",
-        "lua",
-        "markdown",
-        "markdown_inline",
-        "python",
-        "regex",
-        "rust",
-        "toml",
-        "yaml",
-      },
-    }
-  }
+require("nvim-treesitter.configs").setup {
+  ensure_installed = { "lua", "vim", "vimdoc", "python" },
+
+  highlight = {
+    enable = true,
+    use_languagetree = true,
+    add
+  },
+  indent = { enable = true },
 }
