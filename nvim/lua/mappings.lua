@@ -1,27 +1,18 @@
 local map = vim.keymap.set
+local opts = { noremap = true, silent = true }
 
--- general mappings
+-- General mappings
+vim.g.mapleader = ' '
+vim.g.maplocalleader = ' '
 map("i", "jk", "<ESC>")
-map("n", "<C-c>", "<cmd> %y+ <CR>")           -- copy whole filecontent
+map("n", "<C-c>", "<cmd> %y+ <CR>")             -- copy whole filecontent
 map({ "n", "v" }, "<leader>q", "<cmd> qa <CR>") -- quit nvim
 
--- nvimtree
-map("n", "<leader>e", "<cmd> Neotree filesystem reveal right <CR>")
+-- Disable the spacebar key's default behavior in Normal and Visual modes
+map({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 
--- telescope
-map("n", "<leader>ff", "<cmd> Telescope find_files <CR>")
-map("n", "<leader>fo", "<cmd> Telescope oldfiles <CR>")
-map("n", "<leader>fw", "<cmd> Telescope live_grep <CR>")
-map("n", "<leader>gt", "<cmd> Telescope git_status <CR>")
-
--- bufferline, cycle buffers
-map("n", "<Tab>", "<cmd> BufferLineCycleNext <CR>")
-map("n", "<S-Tab>", "<cmd> BufferLineCyclePrev <CR>")
-map("n", "<C-q>", "<cmd> bd <CR>")
-
--- comment.nvim
-map("n", "<leader>/", "gcc", { remap = true })
-map("v", "<leader>/", "gc", { remap = true })
+-- Toggle line wrapping
+map('n', '<leader>lw', '<cmd>set wrap!<CR>', opts)
 
 -- auto format while saving
 map("n", "<C-s>", function()
@@ -33,3 +24,26 @@ map("i", "<C-s>", function()
   require("conform").format({ async = true })
   vim.cmd("w")
 end, { desc = "Format and Save in Insert Mode" })
+
+-- Delete single character without copying into register
+map('n', 'x', '"_x', opts)
+
+-- Stay in indent mode
+map('v', '<', '<gv', opts)
+map('v', '>', '>gv', opts)
+
+-- Window management
+map('n', '<leader>v', '<C-w>v', opts)      -- split window vertically
+map('n', '<leader>h', '<C-w>s', opts)      -- split window horizontally
+map('n', '<leader>se', '<C-w>=', opts)     -- make split windows equal width & height
+map('n', '<leader>xs', ':close<CR>', opts) -- close current split window
+
+-- Navigate between splits
+map('n', '<C-k>', ':wincmd k<CR>', opts)
+map('n', '<C-j>', ':wincmd j<CR>', opts)
+map('n', '<C-h>', ':wincmd h<CR>', opts)
+map('n', '<C-l>', ':wincmd l<CR>', opts)
+
+-- Move text up and down
+map('v', '<A-j>', ':m .+1<CR>==', opts)
+map('v', '<A-k>', ':m .-2<CR>==', opts)

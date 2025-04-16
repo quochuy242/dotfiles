@@ -1,36 +1,68 @@
 local o = vim.o
+local opt = vim.opt
+local wo = vim.wo
 
-vim.g.mapleader = " "
+-- General settings
+o.clipboard = "unnamedplus"        -- Use system clipboard
+o.mouse = "a"                      -- Enable mouse support
+o.fileencoding = "utf-8"           -- File encoding
+o.termguicolors = true             -- Enable true color support
+o.cmdheight = 1                    -- Height of the command line
+o.showmode = false                 -- Hide -- INSERT -- and similar messages
+o.showtabline = 2                  -- Always show tabline
+o.backup = false                   -- Disable backup file
+o.writebackup = false              -- Disable write backup
+o.swapfile = false                 -- Disable swap file
+o.undofile = true                  -- Enable persistent undo
+o.timeoutlen = 300                 -- Timeout length for mappings (ms)
+o.updatetime = 250                 -- Faster completion (ms)
+o.pumheight = 10                   -- Max height of the popup menu
+o.conceallevel = 0                 -- Make `` visible in markdown files
+o.completeopt = "menuone,noselect" -- Completion menu options
+o.laststatus = 3                   -- Use global statusline
+o.breakindent = true               -- Enable break indent
 
-o.laststatus = 3 -- global statusline
-o.showmode = false
+-- Search settings
+o.ignorecase = true -- Ignore case in search
+o.smartcase = true  -- Override ignorecase if search contains uppercase
+o.hlsearch = false  -- Disable search highlight
 
-o.clipboard = "unnamedplus"
+-- Line number settings
+wo.number = true        -- Show absolute line number
+o.relativenumber = true -- Show relative line numbers
+o.numberwidth = 4       -- Width of line number column
+o.signcolumn = "yes"    -- Always show sign column
+o.cursorline = true     -- Highlight current line
 
--- Indenting
-o.expandtab = true
-o.shiftwidth = 2
-o.smartindent = true
-o.tabstop = 2
-o.softtabstop = 2
+-- Split window behavior
+o.splitbelow = true -- Horizontal splits open below
+o.splitright = true -- Vertical splits open to the right
 
-vim.opt.fillchars = { eob = " " }
-o.ignorecase = true
-o.smartcase = true
-o.mouse = "a"
+-- Indentation settings
+o.expandtab = true   -- Convert tabs to spaces
+o.smartindent = true -- Smart indentation
+o.autoindent = true  -- Copy indent from current line
+o.shiftwidth = 2     -- Number of spaces per indent
+o.tabstop = 2        -- Number of spaces a tab counts for
+o.softtabstop = 2    -- Number of spaces for <Tab>/<BS>
 
-o.number = true
+-- Scrolling behavior
+o.scrolloff = 4     -- Keep 4 lines visible above/below cursor
+o.sidescrolloff = 8 -- Keep 8 columns visible beside cursor
 
-o.signcolumn = "yes"
-o.splitbelow = true
-o.splitright = true
-o.termguicolors = true
-o.timeoutlen = 400
-o.undofile = true
-o.cursorline = true
+-- Display settings
+opt.fillchars = { eob = " " } -- Hide ~ at end of buffer
+o.wrap = false                -- Disable line wrapping
+o.linebreak = true            -- Wrap lines at word boundary
+o.whichwrap = "bs<>[]hl"      -- Allow certain keys to wrap lines
 
--- add binaries installed by mason.nvim to path
+-- Highlighting and UI tweaks
+vim.api.nvim_set_hl(0, "IndentLine", { link = "Comment" }) -- Style for indent guides
+opt.shortmess:append("c")                                  -- Shorten completion messages
+opt.iskeyword:append("-")                                  -- Treat hyphenated-words as one word
+opt.formatoptions:remove({ "c", "r", "o" })                -- Don’t auto-insert comment leader
+opt.runtimepath:remove("/usr/share/vim/vimfiles")          -- Remove Vim-only runtime path
+
+-- Add binaries installed by mason.nvim to PATH
 local is_windows = vim.loop.os_uname().sysname == "Windows_NT"
-vim.env.PATH = vim.env.PATH .. (is_windows and ";" or ":") .. vim.fn.stdpath "data" .. "/mason/bin"
-
-vim.api.nvim_set_hl(0, "IndentLine", { link = "Comment" })
+vim.env.PATH = vim.env.PATH .. (is_windows and ";" or ":") .. vim.fn.stdpath("data") .. "/mason/bin"
