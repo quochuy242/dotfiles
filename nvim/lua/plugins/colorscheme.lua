@@ -47,9 +47,17 @@ return {
             colored_indent_levels = false,
           },
           mason = true,
-        }
+        },
       }
       vim.cmd.colorscheme "catppuccin"
-    end
-  }
+    end,
+  },
+  {
+    "uZer/pywal16.nvim",
+    config = function()
+      -- vim.cmd.colorscheme "pywal16"
+      -- local pywal16 = require "pywal16"
+      -- pywal16.setup()
+    end,
+  },
 }

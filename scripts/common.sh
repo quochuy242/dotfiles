@@ -10,8 +10,8 @@ PURPLE='\033[0;35m'
 NC='\033[0m' # No Color
 
 # Config repo URL
-REPO_URL="https://github.com/quochuy242/hyprland-config.git"
-CLONE_DIR="$HOME/hyprland-config"
+REPO_URL="https://github.com/quochuy242/dotfiles.git"
+CLONE_DIR="$HOME/dotfiles"
 SCRIPTS_DIR="$CLONE_DIR/scripts"
 
 # Function for printing section headers

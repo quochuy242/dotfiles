@@ -58,6 +58,10 @@ sudo pacman -S --needed --noconfirm kitty alacritty
 print_section "Installing shell enhancements"
 sudo pacman -S --needed --noconfirm atuin starship
 
+print_section "Installing pywal"
+yay -S --needed --noconfirm python-pywal16 python-pywalfox
+sudo pywalfox install
+
 print_section "Setup tmux"
 print_subsection "Install sesh - tmux session manager"
 paru -S sesh-bin gitmux

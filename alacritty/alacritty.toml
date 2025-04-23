@@ -15,7 +15,7 @@ blur = true
 option_as_alt = "Both"
 
 [font]
-normal.family = "JetBrainsMono Nerd Font"
+normal.family = "Iosevka Nerd Font"
 size = 12
 
 [selection]
