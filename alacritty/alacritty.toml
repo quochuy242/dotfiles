@@ -16,7 +16,7 @@ option_as_alt = "Both"
 
 [font]
 normal.family = "Iosevka Nerd Font"
-size = 12
+size = 14
 
 [selection]
 semantic_escape_chars = ",│`|:\"' ()[]{}<>\t"

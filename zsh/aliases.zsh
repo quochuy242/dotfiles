@@ -98,3 +98,9 @@ if [[ -x "$(command -v yay)" ]]; then
   alias yaup='yay -Syu'
   alias yalist='yay -Q'
 fi
+
+# Wifi
+if [[ -x "$(command -v iwctl)" ]]; then
+  alias wifi-list="iwctl station wlan0 get-networks"
+  alias wifi-connect="iwctl station wlan0 connect"
+fi

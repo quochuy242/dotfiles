@@ -9,7 +9,7 @@ map("n", "<C-c>", "<cmd> %y+ <CR>")             -- copy whole filecontent
 map({ "n", "v" }, "<leader>q", "<cmd> qa <CR>") -- quit nvim
 
 -- Disable the spacebar key's default behavior in Normal and Visual modes
-map({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
+map({ 'n', 'v' }, '<space>', '<Nop>', { silent = true })
 
 -- Toggle line wrapping
 map('n', '<leader>lw', '<cmd>set wrap!<CR>', opts)
@@ -27,6 +27,9 @@ end, { desc = "Format and Save in Insert Mode" })
 
 -- Delete single character without copying into register
 map('n', 'x', '"_x', opts)
+
+-- Replace by pasting without copy
+map("x", "p", [["_dP]])
 
 -- Stay in indent mode
 map('v', '<', '<gv', opts)
