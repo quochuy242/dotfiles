@@ -23,7 +23,7 @@ fi
 
 # Visual Studio Code
 if [[ -x "$(command -v code)" ]]; then
-  alias vsc='code'
+  alias vsc='code --ozone-platform=wayland' # For wayland
 fi
 
 # Zoxide
