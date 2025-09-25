@@ -2,16 +2,13 @@
 set -e # Exit on error
 
 # Import the common functions
-CURR_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-source "$CURR_DIR/../common.sh"
+SRC_DIR="$(pwd)"
+source "$SRC_DIR/common.sh"
 
 # Function to check if a package is installed
 is_installed() {
   pacman -Qi "$1" &>/dev/null
 }
-
-# Go Home
-cd ~
 
 # Create some directories if it doesn't exist
 mkdir -p ~/.local/bin ~/.cargo/env
@@ -22,16 +19,16 @@ sudo pacman -Syu --noconfirm
 print_section "Installing dependencies"
 sudo pacman -S --needed --noconfirm git base-devel
 
-# Check if paru is already installed
-if ! command -v paru &>/dev/null; then
-  print_section "Installing paru AUR helper"
-  git clone https://aur.archlinux.org/paru.git $HOME/paru
-  cd $HOME/paru
-  makepkg -si --noconfirm
-  cd ~
-else
-  print_section "paru is already installed"
-fi
+# Check if yay is already installed
+# if ! command -v yay &>/dev/null; then
+#   print_section "Installing yay AUR helper"
+#   git clone https://aur.archlinux.org/yay.git $HOME/yay
+#   cd $HOME/yay
+#   makepkg -si --noconfirm
+#   cd ~
+# else
+#   print_section "yay is already installed"
+# fi
 
 # Install packages
 print_section "Installing shell environments"
@@ -58,16 +55,12 @@ sudo pacman -S --needed --noconfirm kitty alacritty
 print_section "Installing shell enhancements"
 sudo pacman -S --needed --noconfirm atuin starship
 
-print_section "Installing pywal"
-yay -S --needed --noconfirm python-pywal16 python-pywalfox
-sudo pywalfox install
-
 print_section "Setup tmux"
 print_subsection "Install sesh - tmux session manager"
-paru -S sesh-bin gitmux
-sudo pacman -S --needed --noconfirm github-cli
-gh auth login # Login GitHub before installing extension
-gh extension install dlvhdr/gh-dash
+# yay -S sesh-bin gitmux
+# sudo pacman -S --needed --noconfirm github-cli
+# gh auth login # Login GitHub before installing extension
+# gh extension install dlvhdr/gh-dash
 
 # Install TPM if not already installed
 if [ ! -d "$HOME/.config/tmux/plugins/tpm" ]; then
