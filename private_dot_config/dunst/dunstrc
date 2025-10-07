@@ -1,6 +1,6 @@
 [global]
     follow = mouse
-    width = (0, 1500)
+    width = 1500
     height = 1000
     indicate_hidden = yes
     offset = 10x10
@@ -8,7 +8,7 @@
     separator_height = 2
     padding = 2
     horizontal_padding = 2
-    text_icon_padding = 0
+    text_icon_padding = 100
     frame_width = 2
     frame_color = "#a6adc8"
     separator_color = frame

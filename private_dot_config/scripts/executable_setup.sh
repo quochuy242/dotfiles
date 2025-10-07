@@ -58,10 +58,13 @@ setup_python() {
   install_package python-pipx
   install_package python-virtualenv
   install_package uv
+  pipx ensurepath
+  pipx install completions
+  pipx install speedtest-cli
 }
 
 setup_go() {
-  print_section "Setup Golang and tools"
+  print_section "Setup Golang"
   install_package go
 }
 

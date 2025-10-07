@@ -18,7 +18,6 @@ bindkey "^[[B" history-beginning-search-forward   # search history with down key
 # ----- Starship -----
 type starship_zle-keymap-select >/dev/null || \
 {
-  echo "Load starship"
   eval "$(starship init zsh)"
 }
 
@@ -68,6 +67,12 @@ source "$HOME/.config/zsh/zstyle.zsh"
 # ---- Functions -----
 source "$HOME/.config/zsh/functions.zsh"
 
+# ---- Golang -----
+export GOPATH="$HOME/go"
+export GOBIN="$GOPATH/bin"
+export PATH="$PATH:$GOBIN"
+
 # ----- Other config -----
 export KEYTIMEOUT=50
 export EZA_CONFIG_DIR="$HOME/.config/eza/"
+export EDITOR=nvim
