@@ -51,7 +51,6 @@ return {
 				map("n", "K", vim.lsp.buf.hover, { desc = "Hover Documentation", buffer = bufnr })
 				map("n", "<leader>r", vim.lsp.buf.rename, { desc = "[R]ename symbol", buffer = bufnr })
 				map("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "[C]ode [A]ction", buffer = bufnr })
-				-- map("n", "<leader>f", vim.lsp.buf.format, { desc = "[F]ormat buffer", buffer = bufnr })
 			end
 
 			-- ======================
@@ -167,20 +166,15 @@ return {
 	},
 
 	-- [[ AI completion]]
+
 	{
-		"Exafunction/windsurf.vim",
+		"Exafunction/windsurf.nvim",
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+			"hrsh7th/nvim-cmp",
+		},
 		config = function()
-			-- Change '<C-g>' here to any keycode you like.
-			local map = vim.keymap.set
-			map("i", "<C-g>", function()
-				return vim.fn["codeium#Accept"]()
-			end, { expr = true, silent = true })
-			map("i", "<C-;>", function()
-				return vim.fn["codeium#CycleCompletions"](1)
-			end, { expr = true, silent = true })
-			map("i", "<C-,>", function()
-				return vim.fn["codeium#CycleCompletions"](-1)
-			end, { expr = true, silent = true })
+			require("codeium").setup({})
 		end,
 	},
 
@@ -242,11 +236,23 @@ return {
 			-- Trouble is a pretty list for showing diagnostics, references, etc.
 			-- It works as a better quickfix/location list replacement.
 			-- Useful for navigating errors, warnings, TODOs, or LSP references.
+			modes = {
+				preview_float = {
+					mode = "diagnostics",
+					preview = {
+						type = "float",
+						relative = "editor",
+						border = "rounded",
+						title = "Preview",
+						title_pos = "center",
+						position = { 0, -2 },
+						size = { width = 0.3, height = 0.3 },
+						zindex = 200,
+					},
+				},
+			},
 		},
 		keys = {
-			-- Toggle Trouble with diagnostics from your whole workspace
-			{ "<leader>d", "<cmd>Trouble diagnostics toggle<cr>", desc = "[D]iagnostics" },
-
 			-- Show diagnostics only for the current buffer
 			{ "<leader>db", "<cmd>Trouble diagnostics toggle filter.buf=0<cr>", desc = "[D]iagnostics for [B]uffer" },
 
@@ -269,6 +275,13 @@ return {
 			-- Show TODOs, FIX, HACK, WARN, etc. if you use todo-comments.nvim
 			{ "<leader>dtd", "<cmd>Trouble todo toggle<cr>", desc = "[T]ODOs" },
 		},
+
+		config = function()
+			local config = require("fzf-lua.config")
+			local actions = require("trouble.sources.fzf").actions
+
+			config.defaults.actions.files["ctrl-t"] = actions.open
+		end,
 	},
 
 	-- [[ Cmp ]]
@@ -298,6 +311,7 @@ return {
 					{ name = "buffer" }, -- Words from buffer
 					{ name = "path" }, -- File paths
 					{ name = "nvim_lua" }, -- Lua API for Neovim
+					{ name = "codeium" }, -- AI completion
 				}),
 
 				-- Window appearance
@@ -319,6 +333,7 @@ return {
 							buffer = "[Buffer]",
 							path = "[Path]",
 							nvim_lua = "[Lua]",
+							codeium = "[AI]",
 						})[entry.source.name]
 						return vim_item
 					end,

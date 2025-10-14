@@ -25,7 +25,7 @@ configuration {
     element-border-radius:       20px;
 
     prompt-font:                 "Iosevka Nerd Font Bold 72";
-    textbox-font:                "Iosevka Nerd Font 14";
+    textbox-font:                "Iosevka Nerd Font Propo 14";
     element-text-font:           "feather 64";
 
     background-window:           black/80%;

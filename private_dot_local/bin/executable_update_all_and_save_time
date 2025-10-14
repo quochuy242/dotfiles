@@ -17,4 +17,4 @@ else
 fi
 
 # Save the time to a file
-echo "$(date +%s)" > ~/.last_system_update
+date +%s > ~/.last_system_update

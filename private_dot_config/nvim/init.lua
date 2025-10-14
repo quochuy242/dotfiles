@@ -62,6 +62,9 @@ o.wrap = false -- Disable line wrapping
 o.linebreak = true -- Wrap lines at word boundary
 o.whichwrap = "bs<>[]hl" -- Allow certain keys to wrap lines
 
+-- Terminal-builtin
+vim.g.terminal_emulator = "/usr/bin/zsh"
+
 -- Highlighting and UI tweaks
 vim.api.nvim_set_hl(0, "IndentLine", { link = "Comment" }) -- Style for indent guides
 opt.shortmess:append("c") -- Shorten completion messages
@@ -72,6 +75,7 @@ opt.runtimepath:remove("/usr/share/vim/vimfiles") -- Remove Vim-only runtime pat
 -- [[ Global keymaps ]]
 vim.g.mapleader = " "
 map({ "i", "v" }, "jk", "<Esc>") -- Quick exit from insert and visual mode
+map({ "i", "v" }, "kj", "<Esc>") -- Quick exit from insert and visual mode
 map({ "n", "v" }, "<space>", "<Nop>", { silent = true }) -- Disable the space key
 map("n", "<C-c>", "<cmd> %y+ <CR>") -- copy whole filecontent
 map({ "n", "v" }, "<leader>q", "<cmd> q <CR>", { desc = "Close the current window" }) -- close the current window
@@ -88,18 +92,8 @@ end, { desc = "[/] Fuzzily search in current buffer (fzf-lua)" })
 local function format_on_save()
 	-- 1. Formatting
 	require("conform").format({ async = true })
-
 	-- 2. Save
 	vim.cmd("w")
-
-	-- 3. Chezmoi process
-	local current_dir = vim.fn.getcwd()
-	local chezmoi_dir = vim.fn.expand("~/.local/share/chezmoi")
-
-	if current_dir == chezmoi_dir then
-		vim.cmd("silent !chezmoi apply")
-		print("Saved and chezmoi applied")
-	end
 end
 
 map("n", "<C-S>", format_on_save, { desc = "Format, save and optionally apply chezmoi" })
@@ -113,10 +107,6 @@ map("n", "x", '"_x', map_opt)
 
 -- Replace by pasting without copy
 map("x", "p", [["_dP]])
-
--- Move text up and down
-map({ "v", "n" }, "<A-j>", ":m .+1<CR>==", map_opt)
-map({ "v", "n" }, "<A-k>", ":m .-2<CR>==", map_opt)
 
 -- Clear highlights on search when pressing <Esc> in normal mode
 --  See `:help hlsearch`

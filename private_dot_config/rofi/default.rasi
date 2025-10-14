@@ -1,6 +1,11 @@
 @import "shared/fonts.rasi"
 @import "shared/colors.rasi"
 
+configuration {
+    matching: "prefix";
+    sort: true;
+}
+
 * {
   background-color:   transparent;
   text-color:         @foreground;

@@ -37,7 +37,7 @@ return {
 		require("mini.comment").setup()
 
 		-- Statusline and its dependencies
-		require("mini.statusline").setup()
+		-- require("mini.statusline").setup()
 		require("mini.git").setup()
 		-- `gh` / `gH to apply / reset the hunk
 		-- `[h` / `]h` to go to the next / previous hunk
@@ -67,5 +67,8 @@ return {
 		-- - line_down = '<M-j>',
 		-- - line_up = '<M-k>',
 		require("mini.move").setup()
+
+		-- Starter
+		require("mini.starter").setup()
 	end,
 }

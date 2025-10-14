@@ -1,0 +1,39 @@
+#!/bin/bash 
+
+echo_and_notify () {
+  local noti_msg="$1"
+  local title_noti="$2"
+  
+  echo "$noti_msg"
+  notify-send "$title_noti" "$noti_msg" # Title is $2, info is $1
+}
+
+restart_if_exists() {
+  local app="$1"
+  local cmd="$2"
+
+  if [ -x "$(command -v "$app")" ]; then
+    if eval "$cmd"; then
+      echo_and_notify "Success" "Restarted $app"
+    else
+      echo_and_notify "Error" "Failed to restart $app"
+    fi
+  else
+    echo_and_notify "Warning" "$app not found in PATH"
+  fi
+}
+
+
+# [[ Restart application without reboot or logout ]]
+
+# Upload the latest version of chezmoi dotfiles
+restart_if_exists "chezmoi" "chezmoi apply"
+
+# Dunst
+restart_if_exists "dunst" "pkill dunst && hyprctl dispatch exec dunst"
+
+# Waybar
+restart_if_exists "waybar" "pkill waybar && hyprctl dispatch exec waybar"
+
+
+

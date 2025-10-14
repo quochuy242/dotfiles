@@ -70,10 +70,10 @@ return {
 			delay = 0,
 			icons = {
 				-- set icon mappings to true if you have a Nerd Font
-				mappings = nerd_font,
+				mappings = vim.g.have_nerd_font,
 				-- If you are using a Nerd Font: set icons.keys to an empty table which will use the
 				-- default which-key.nvim defined Nerd Font icons, otherwise define a string table
-				keys = nerd_font and {} or {
+				keys = vim.g.have_nerd_font and {} or {
 					Up = "<Up> ",
 					Down = "<Down> ",
 					Left = "<Left> ",
@@ -107,8 +107,6 @@ return {
 			spec = {
 				{ "<leader>f", group = "[F]ind" },
 				{ "<leader>d", group = "[D]iagnostics" },
-				{ "<leader>l", group = "[L]azy" },
-				{ "<leader>m", group = "[M]ason" },
 				{ "<leader>s", group = "[S]urround" },
 			},
 		},
@@ -124,11 +122,6 @@ return {
 
 	{
 		"Bekaboo/dropbar.nvim",
-		-- optional, but required for fuzzy finder support
-		dependencies = {
-			"nvim-telescope/telescope-fzf-native.nvim",
-			build = "make",
-		},
 		config = function()
 			local dropbar_api = require("dropbar.api")
 			vim.keymap.set("n", "<leader>;", dropbar_api.pick, { desc = "Pick symbols in winbar" })
@@ -169,6 +162,43 @@ return {
 			require("ibl").setup({ scope = { highlight = highlight } })
 
 			hooks.register(hooks.type.SCOPE_HIGHLIGHT, hooks.builtin.scope_highlight_from_extmark)
+		end,
+	},
+
+	{
+		"nvim-lualine/lualine.nvim",
+		dependencies = { "nvim-tree/nvim-web-devicons" },
+		opts = function()
+			local trouble = require("trouble")
+			local symbols = trouble.statusline({
+				mode = "lsp_document_symbols",
+				groups = {},
+				title = false,
+				filter = { range = true },
+				format = "{kind_icon}{symbol.name:Normal}",
+				hl_group = "lualine_c_normal",
+			})
+
+			require("lualine").setup({
+				options = {
+					theme = "tokyonight",
+					section_separators = { left = "", right = "" },
+					component_separators = { left = "|", right = "|" },
+				},
+				sections = {
+					lualine_a = { "mode" },
+					lualine_b = { "branch", "diff", "diagnostics" },
+					lualine_c = {
+						{ symbols.get, cond = symbols.has },
+					},
+					lualine_x = {
+						{ "filetype", icon_only = true },
+					},
+					lualine_y = { "progress" },
+					lualine_z = { "location" },
+				},
+				extensions = { "fzf", "lazy", "mason", "neo-tree", "trouble" },
+			})
 		end,
 	},
 }

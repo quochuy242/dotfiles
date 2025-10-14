@@ -1,6 +1,6 @@
 [global]
     follow = mouse
-    width = 1500
+    width = (0, 500)
     height = 1000
     indicate_hidden = yes
     offset = 10x10
