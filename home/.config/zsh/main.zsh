@@ -15,6 +15,10 @@ setopt promptsubst         # enable command substitution in prompt
 bindkey "^[[A" history-beginning-search-backward  # search history with up key
 bindkey "^[[B" history-beginning-search-forward   # search history with down key
 
+# ----- Android Studio -----
+export PATH=$PATH:/opt/android-studio/bin
+export PATH=$PATH:$HOME/Android/Sdk/platform-tools
+
 # ----- Starship -----
 type starship_zle-keymap-select >/dev/null || \
 {
@@ -38,6 +42,9 @@ export BAT_THEME=tokyonight_night
 
 # ---- FZF -----
 source "$HOME/.config/zsh/fzf.zsh"
+
+# ---- k8s -----
+source <(kubectl completion zsh)
 
 # --- pipx autocompletion ---
 autoload -U compinit && compinit   # If it's not exist

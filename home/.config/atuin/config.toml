@@ -38,7 +38,7 @@
 
 ## which search mode to use
 ## possible values: prefix, fulltext, fuzzy, skim
-search_mode = "fuzzy"
+# search_mode = "fuzzy"
 
 ## which filter mode to use by default
 ## possible values: "global", "host", "session", "directory", "workspace"
@@ -65,23 +65,18 @@ search_mode = "fuzzy"
 
 ## which style to use
 ## possible values: auto, full, compact
-style = "full"
+# style = "auto"
 
 ## the maximum number of lines the interface should take up
 ## set it to 0 to always go full screen
 # inline_height = 0
-
-## the maximum number of lines the interface should take up
-## when atuin is invoked from a shell up-key binding
-## the accepted values are identical to those of "inline_height"
-# inline_height_shell_up_key_binding = 0
 
 ## Invert the UI - put the search bar at the top , Default to `false`
 # invert = false
 
 ## enable or disable showing a preview of the selected command
 ## useful when the command is longer than the terminal width and is cut off
-show_preview = true
+# show_preview = true
 
 ## what to do when the escape key is pressed when searching
 ## possible values: return-original, return-query
@@ -154,16 +149,13 @@ show_preview = true
 # This applies for new installs. Old installs will keep the old behaviour unless configured otherwise.
 enter_accept = true
 
-## Defaults to false. If enabled, when triggered after && or ||, Atuin will complete commands to chain rather than replace the current line.
-# command_chaining = false
-
 ## Defaults to "emacs".  This specifies the keymap on the startup of `atuin
 ## search`.  If this is set to "auto", the startup keymap mode in the Atuin
 ## search is automatically selected based on the shell's keymap where the
 ## keybinding is defined.  If this is set to "emacs", "vim-insert", or
 ## "vim-normal", the startup keymap mode in the Atuin search is forced to be
 ## the specified one.
-keymap_mode = "vim-insert"
+# keymap_mode = "auto"
 
 ## Cursor style in each keymap mode.  If specified, the cursor style is changed
 ## in entering the cursor shape.  Available values are "default" and
@@ -278,6 +270,3 @@ records = true
 ## The "workspace" mode is skipped when not in a workspace or workspaces = false.
 ## Default filter mode can be overridden with the filter_mode setting.
 # filters = [ "global", "host", "session", "workspace", "directory" ]
-
-[theme]
-name = "catppuccin-mocha-blue"

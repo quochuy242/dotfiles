@@ -7,4 +7,4 @@ export GOPATH=$HOME/go
 export GOBIN="$GOPATH/bin"
 
 # Editor
-export EDITOR="nvim"
+export EDITOR="nvim". "$HOME/.cargo/env"
