@@ -57,9 +57,6 @@ eval "$(zoxide init zsh)"
 . "$HOME/.cargo/env"
 export PATH="$HOME/.cargo/bin:$PATH"
 
-# ---- Atuin -----
-eval "$(atuin init zsh)"
-
 # ---- Alias -----
 source "$HOME/.config/zsh/aliases.zsh"
 
@@ -78,3 +75,7 @@ export PATH="$PATH:$GOBIN"
 export KEYTIMEOUT=50
 export EZA_CONFIG_DIR="$HOME/.config/eza/"
 export EDITOR=nvim
+
+# ---- Atuin ----
+. "$HOME/.atuin/bin/env"
+eval "$(atuin init zsh)"

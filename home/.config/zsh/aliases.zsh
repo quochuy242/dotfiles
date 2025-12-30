@@ -38,6 +38,11 @@ if [[ -x "$(command -v python3)" ]]; then
   alias pydeac='deactivate'
 fi
 
+# Neovim
+if [[ -x "$(command -v nvim)" ]]; then
+	alias nv='nvim'
+	alias vi='nvim'
+fi
 
 # Git
 if [[ -x "$(command -v git)" ]]; then

@@ -1,5 +1,4 @@
-# Set up fzf 
-eval "$(fzf --zsh)"
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # --- Setup fzf theme ---
 export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS'
