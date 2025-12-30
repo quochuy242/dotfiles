@@ -55,3 +55,6 @@ alias pmin='sudo dnf install'
 alias pmup='sudo dnf -y upgrade'
 alias pmli='rpm -qa'
 alias pmrm='sudo dnf remove'
+
+# Bat
+alias bat='batcat'

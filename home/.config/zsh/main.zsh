@@ -19,11 +19,6 @@ bindkey "^[[B" history-beginning-search-forward   # search history with down key
 export PATH=$PATH:/opt/android-studio/bin
 export PATH=$PATH:$HOME/Android/Sdk/platform-tools
 
-# ----- Starship -----
-type starship_zle-keymap-select >/dev/null || \
-{
-  eval "$(starship init zsh)"
-}
 
 # ----- History -----
 HISTFILE=$HOME/.zhistory

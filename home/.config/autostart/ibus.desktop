@@ -1,7 +1,0 @@
-[Desktop Entry]
-Type=Application
-Name=IBus
-Exec=ibus-daemon -drx
-Comment=Start IBus input method
-OnlyShowIn=GNOME;KDE;XFCE;
-X-GNOME-Autostart-enabled=true
