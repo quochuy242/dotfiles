@@ -70,4 +70,7 @@ fi
 if [[ -x "$(command -v nvim)" ]]; then
     alias vim='nvim'
     alias svi='sudo nvim'
+    alias vimdiff='nvim -d'
+    alias nv='nvim'
+    alias vi='nvim'
 fi

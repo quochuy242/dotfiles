@@ -20,10 +20,10 @@ export PATH=$PATH:/opt/android-studio/bin
 export PATH=$PATH:$HOME/Android/Sdk/platform-tools
 
 # ----- Starship -----
-type starship_zle-keymap-select >/dev/null || \
-{
-  eval "$(starship init zsh)"
-}
+# type starship_zle-keymap-select >/dev/null || \
+# {
+#     eval "$(starship init zsh)"
+# }
 
 # ----- History -----
 HISTFILE=$HOME/.zhistory
@@ -54,6 +54,7 @@ eval "$(register-python-argcomplete pipx)"
 
 # Created by `pipx` on 2024-12-10 08:14:04
 export PATH="$PATH:/home/quochuy242/.local/bin"
+export PATH="$HOME/.local/bin:$PATH"
 
 # ---- Zoxide (better cd) ----
 eval "$(zoxide init zsh)"
