@@ -3,6 +3,78 @@ source "$(dirname "$0")/functions.sh"
 
 DOTFILES_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 
+if [[ -z "$DOTFILES_MODE" ]]; then
+    error "DOTFILES_MODE not set. Run via main.sh [link|bind]"
+    exit 1
+fi
+
+
+bind_config() {
+    local src="$1"
+    local dest="$2"
+
+    if [ ! -e "$src" ]; then
+        warn "Source not found: $src"
+        return 1
+    fi
+
+    # Create parent directory if it doesn't exist
+    mkdir -p "$(dirname "$dest")"
+
+    # If already mounted →  skip
+    if mountpoint -q "$dest"; then
+        info "Already mounted: $dest"
+        return 0
+    fi
+
+    # Backup existing destination
+    if [ -e "$dest" ] && [ ! -d "$dest" ]; then
+        info "Backing up existing file: $dest -> ${dest}.bak"
+        mv "$dest" "${dest}.bak"
+    fi
+
+    # Ensure dest exists (file or dir)
+    if [ -d "$src" ]; then
+        mkdir -p "$dest"
+    else
+        touch "$dest"
+    fi
+
+    sudo mount --bind "$src" "$dest"
+
+    success "Bind mounted: $dest <- $src"
+
+}
+
+persist_mount() {
+    local src="$1"
+    local dest="$2"
+
+    if ! grep -qs "$src $dest" /etc/fstab; then
+        echo "$src $dest none bind 0 0" | sudo tee -a /etc/fstab > /dev/null
+        info "Persisted in fstab: $dest"
+    fi
+}
+
+apply_config() {
+    local src="$1"
+    local dest="$2"
+
+    case "$DOTFILES_MODE" in
+        link)
+            link_config "$src" "$dest"
+            ;;
+        bind)
+            bind_config "$src" "$dest"
+            ;;
+        *)
+            error "Unknown mode: $DOTFILES_MODE"
+            exit 1
+            ;;
+    esac
+}
+
+
 link_config() {
     local src="$1"
     local dest="$2"
@@ -31,44 +103,59 @@ link_config() {
 
 apply_cli() {
     section "Applying CLI configurations"
-    
-    # Dotfiles
-    link_config "$DOTFILES_DIR/cli/.zshrc" "$HOME/.zshrc"
-    link_config "$DOTFILES_DIR/cli/.profile" "$HOME/.profile"
-    link_config "$DOTFILES_DIR/cli/starship.toml" "$HOME/.config/starship.toml"
-    
-    # Config directories
-    link_config "$DOTFILES_DIR/cli/nvim" "$HOME/.config/nvim"
-    link_config "$DOTFILES_DIR/cli/tmux" "$HOME/.config/tmux"
-    link_config "$DOTFILES_DIR/cli/zsh" "$HOME/.config/zsh"
-    link_config "$DOTFILES_DIR/cli/bat" "$HOME/.config/bat"
-    link_config "$DOTFILES_DIR/cli/atuin" "$HOME/.config/atuin"
-    link_config "$DOTFILES_DIR/cli/lazygit" "$HOME/.config/lazygit"
-    link_config "$DOTFILES_DIR/cli/yazi" "$HOME/.config/yazi"
-    link_config "$DOTFILES_DIR/cli/zathura" "$HOME/.config/zathura"
-    link_config "$DOTFILES_DIR/cli/btop" "$HOME/.config/btop"
-    link_config "$DOTFILES_DIR/cli/fastfetch" "$HOME/.config/fastfetch"
+
+    local files=(
+        ".zshrc:.zshrc"
+        ".profile:.profile"
+        "starship.toml:.config/starship.toml"
+    )
+
+    local dirs=(
+        "nvim:.config/nvim"
+        "tmux:.config/tmux"
+        "zsh:.config/zsh"
+        "bat:.config/bat"
+        "atuin:.config/atuin"
+        "lazygit:.config/lazygit"
+        "yazi:.config/yazi"
+        "zathura:.config/zathura"
+        "btop:.config/btop"
+        "fastfetch:.config/fastfetch"
+    )
+
+    for pair in "${files[@]}"; do
+        IFS=: read -r src dest <<< "$pair"
+        apply_config "$DOTFILES_DIR/cli/$src" "$HOME/$dest"
+    done
+
+    for pair in "${dirs[@]}"; do
+        IFS=: read -r src dest <<< "$pair"
+        apply_config "$DOTFILES_DIR/cli/$src" "$HOME/$dest"
+    done
 }
+
 
 apply_gui() {
     section "Applying GUI configurations"
-    
-    # Hyprland
-    link_config "$DOTFILES_DIR/gui/hypr" "$HOME/.config/hypr"
-    
-    # Terminal emulators
-    link_config "$DOTFILES_DIR/gui/kitty" "$HOME/.config/kitty"
-    link_config "$DOTFILES_DIR/gui/alacritty" "$HOME/.config/alacritty"
-    
-    # Application configurations
-    link_config "$DOTFILES_DIR/gui/rofi" "$HOME/.config/rofi"
-    link_config "$DOTFILES_DIR/gui/dunst" "$HOME/.config/dunst"
-    link_config "$DOTFILES_DIR/gui/waybar" "$HOME/.config/waybar"
-    
-    # Environment and autostart
-    link_config "$DOTFILES_DIR/gui/environment.d" "$HOME/.config/environment.d"
-    link_config "$DOTFILES_DIR/gui/autostart" "$HOME/.config/autostart"
+
+    local dirs=(
+        "hypr:.config/hypr"
+        "kitty:.config/kitty"
+        "alacritty:.config/alacritty"
+        "rofi:.config/rofi"
+        "dunst:.config/dunst"
+        "waybar:.config/waybar"
+        "environment.d:.config/environment.d"
+        "autostart:.config/autostart"
+    )
+
+    for pair in "${dirs[@]}"; do
+        IFS=: read -r src dest <<< "$pair"
+        apply_config "$DOTFILES_DIR/gui/$src" "$HOME/$dest"
+    done
 }
+
+
 
 main() {
     require_arch

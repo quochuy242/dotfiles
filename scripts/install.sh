@@ -26,6 +26,7 @@ install_core() {
 install_ampcode() {
     section "Ampcode"
     curl -fsSL https://ampcode.com/install.sh | bash
+    export PATH="$HOME/.local/bin:$PATH"
 
     info "Setting up Context7 API integration"
     
