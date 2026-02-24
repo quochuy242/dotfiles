@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-source "$(dirname "$0")/functions.sh"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$SCRIPT_DIR/functions.sh"
 
 require_arch
 
@@ -28,18 +29,18 @@ install_ampcode() {
     curl -fsSL https://ampcode.com/install.sh | bash
     export PATH="$HOME/.local/bin:$PATH"
 
-    info "Setting up Context7 API integration"
+    # info "Setting up Context7 API integration"
     
-    read -p "Enter your Context7 API key (or press Enter to skip): " context7_api_key
+    # read -p "Enter your Context7 API key (or press Enter to skip): " context7_api_key
     
-    if [ -n "$context7_api_key" ]; then
-        info "Adding Context7 API key to Ampcode config"
-        amp mcp add context7 --header "CONTEXT7_API_KEY=$context7_api_key" https://mcp.context7.com/mcp
-        success "Context7 API key added to Ampcode"
-    else
-        warn "Skipping Context7 API setup. You can add it later with:"
-        warn "  amp mcp add context7 --header \"CONTEXT7_API_KEY=<your-key>\" https://mcp.context7.com/mcp"
-    fi
+    # if [ -n "$context7_api_key" ]; then
+    #     info "Adding Context7 API key to Ampcode config"
+    #     amp mcp add context7 --header "CONTEXT7_API_KEY=$context7_api_key" https://mcp.context7.com/mcp
+    #     success "Context7 API key added to Ampcode"
+    # else
+    #     warn "Skipping Context7 API setup. You can add it later with:"
+    #     warn "  amp mcp add context7 --header \"CONTEXT7_API_KEY=<your-key>\" https://mcp.context7.com/mcp"
+    # fi
 
 }
 

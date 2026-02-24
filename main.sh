@@ -17,8 +17,8 @@ Examples:
   $SCRIPT_NAME bind
 
 Notes:
-  • link  = fast, no root needed, but fragile if source disappears
-  • bind  = kernel mount, stable for dev, requires sudo
+  - link  = fast, no root needed, but fragile if source disappears
+  - bind  = kernel mount, stable for dev, requires sudo
 
 EOF
 }

@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
-source "$(dirname "$0")/functions.sh"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+DOTFILES_DIR="$SCRIPT_DIR/.."
 
-DOTFILES_DIR="$(cd "$(dirname "$0")/.." && pwd)"
+source "$SCRIPT_DIR/functions.sh"
 
 if [[ -z "$DOTFILES_MODE" ]]; then
     error "DOTFILES_MODE not set. Run via main.sh [link|bind]"
