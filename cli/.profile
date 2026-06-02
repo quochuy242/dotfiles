@@ -8,3 +8,6 @@ export GOBIN="$GOPATH/bin"
 
 # Editor
 export EDITOR="nvim". "$HOME/.cargo/env"
+
+# Added by GitLab Knowledge Graph installer
+export PATH="$HOME/.local/bin:$PATH"

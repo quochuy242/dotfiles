@@ -83,4 +83,4 @@ export PATH="$PATH:$GOBIN"
 # ----- Other config -----
 export KEYTIMEOUT=50
 export EZA_CONFIG_DIR="$HOME/.config/eza/"
-export EDITOR=nvim
+export EDITOR=helix

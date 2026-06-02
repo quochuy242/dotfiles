@@ -4,6 +4,7 @@ DOTFILES_DIR="$SCRIPT_DIR/.."
 
 source "$SCRIPT_DIR/functions.sh"
 
+DOTFILES_MODE="${DOTFILES_MODE:-${1:-link}}"
 if [[ -z "$DOTFILES_MODE" ]]; then
     error "DOTFILES_MODE not set. Run via main.sh [link|bind]"
     exit 1
@@ -109,6 +110,7 @@ apply_cli() {
         ".zshrc:.zshrc"
         ".profile:.profile"
         "starship.toml:.config/starship.toml"
+        ".env:.config/.env"
     )
 
     local dirs=(
@@ -122,6 +124,7 @@ apply_cli() {
         "zathura:.config/zathura"
         "btop:.config/btop"
         "fastfetch:.config/fastfetch"
+        "amp:.config/amp"
     )
 
     for pair in "${files[@]}"; do

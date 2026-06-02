@@ -74,3 +74,18 @@ if [[ -x "$(command -v nvim)" ]]; then
     alias nv='nvim'
     alias vi='nvim'
 fi
+
+# Helix
+if [[ -x "$(command -v helix)" ]]; then
+    alias hx='helix'
+    alias shx='sudo helix'
+    alias hxdiff='helix -d'
+fi
+
+# Opencode and OCX
+if [[ -x "$(command -v opencode)" ]]; then
+  alias oc='opencode'
+  if [[ -x "$(command -v ocx)" ]]; then
+      alias oc='ocx oc -p ws'
+  fi
+fi

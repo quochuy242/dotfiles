@@ -1,51 +1,120 @@
-#!/bin/bash
-set -e
+#!/usr/bin/env bash
+set -euo pipefail
 
 SCRIPT_NAME="$(basename "$0")"
 
-help() {
-    cat <<EOF
-Usage:
-  $SCRIPT_NAME [MODE]
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-MODE (required):
-  link    Create symbolic links (classic dotfiles)
-  bind    Use bind mount (recommended for external drives / WSL)
+MODE="link"
+DRY_RUN=false
+ACTION=""
+
+log() {
+    echo "[dotfiles] $*"
+}
+
+die() {
+    echo "[dotfiles:ERROR] $*" >&2
+    exit 1
+}
+
+help() {
+cat <<EOF
+Usage:
+  $SCRIPT_NAME <command> [options]
+
+Commands:
+  install        Install dependencies
+  apply          Apply dotfiles
+  setup          Install + apply
+
+Options:
+  --mode link    Use symbolic links (default)
+  --mode bind    Use bind mount
+  --dry-run      Show actions without executing
+  -h, --help     Show this help
 
 Examples:
-  $SCRIPT_NAME link
-  $SCRIPT_NAME bind
-
-Notes:
-  - link  = fast, no root needed, but fragile if source disappears
-  - bind  = kernel mount, stable for dev, requires sudo
-
+  $SCRIPT_NAME install
+  $SCRIPT_NAME apply --mode link
+  $SCRIPT_NAME setup --mode bind
 EOF
 }
 
-MODE="$1"
+run() {
+    if [[ "$DRY_RUN" == true ]]; then
+        echo "[dry-run] $*"
+    else
+        "$@"
+    fi
+}
 
-if [[ -z "$MODE" ]]; then
-    echo "ERROR: Missing MODE"
-    help
-    exit 1
-fi
+parse_args() {
 
-case "$MODE" in
-    link|bind)
-        export DOTFILES_MODE="$MODE"
-        ;;
-    -h|--help|help)
-        help
-        exit 0
-        ;;
-    *)
-        echo "ERROR: Invalid MODE: $MODE"
-        help
-        exit 1
-        ;;
-esac
+    [[ $# -eq 0 ]] && help && exit 1
 
-source "$(dirname "$0")/scripts/functions.sh"
-source "$(dirname "$0")/scripts/install.sh"
-source "$(dirname "$0")/scripts/apply.sh"
+    ACTION="$1"
+    shift
+
+    while [[ $# -gt 0 ]]; do
+        case "$1" in
+            --mode)
+                MODE="$2"
+                shift 2
+                ;;
+            --dry-run)
+                DRY_RUN=true
+                shift
+                ;;
+            -h|--help)
+                help
+                exit 0
+                ;;
+            *)
+                die "Unknown argument: $1"
+                ;;
+        esac
+    done
+
+    case "$MODE" in
+        link|bind) ;;
+        *) die "Invalid mode: $MODE" ;;
+    esac
+}
+
+load_scripts() {
+    source "$SCRIPT_DIR/scripts/functions.sh"
+}
+
+cmd_install() {
+    log "Running install (mode=$MODE)"
+    source "$SCRIPT_DIR/scripts/install.sh"
+}
+
+cmd_apply() {
+    log "Running apply (mode=$MODE)"
+    source "$SCRIPT_DIR/scripts/apply.sh"
+}
+
+cmd_setup() {
+    cmd_install
+    cmd_apply
+}
+
+main() {
+
+    parse_args "$@"
+
+    export DOTFILES_MODE="$MODE"
+
+    load_scripts
+
+    case "$ACTION" in
+        install) cmd_install ;;
+        apply) cmd_apply ;;
+        setup) cmd_setup ;;
+        *) die "Unknown command: $ACTION" ;;
+    esac
+}
+
+main "$@"

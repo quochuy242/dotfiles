@@ -1,0 +1,22 @@
+{
+  "version": 2,
+  "plugins": {
+    "andrej-karpathy-skills": {
+      "name": "andrej-karpathy-skills",
+      "hash": "619706cebe995b866702ebc7e2015c2a9226df5e49f2441a79322f47542ce5fd",
+      "scope": "user",
+      "source": {
+        "type": "remote",
+        "url": "https://github.com/forrestchang/andrej-karpathy-skills"
+      },
+      "installedAt": "2026-06-02T03:57:47.128Z",
+      "components": {
+        "commands": [],
+        "agents": [],
+        "skills": [
+          "andrej-karpathy-skills--karpathy-guidelines"
+        ]
+      }
+    }
+  }
+}

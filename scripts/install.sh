@@ -26,22 +26,17 @@ install_core() {
 
 install_ampcode() {
     section "Ampcode"
+
+    if command -v amp >/dev/null 2>&1; then
+        success "Ampcode already installed: $(amp --version)"
+        return
+    fi
+
+    info "Installing Ampcode..."
     curl -fsSL https://ampcode.com/install.sh | bash
     export PATH="$HOME/.local/bin:$PATH"
 
-    # info "Setting up Context7 API integration"
-    
-    # read -p "Enter your Context7 API key (or press Enter to skip): " context7_api_key
-    
-    # if [ -n "$context7_api_key" ]; then
-    #     info "Adding Context7 API key to Ampcode config"
-    #     amp mcp add context7 --header "CONTEXT7_API_KEY=$context7_api_key" https://mcp.context7.com/mcp
-    #     success "Context7 API key added to Ampcode"
-    # else
-    #     warn "Skipping Context7 API setup. You can add it later with:"
-    #     warn "  amp mcp add context7 --header \"CONTEXT7_API_KEY=<your-key>\" https://mcp.context7.com/mcp"
-    # fi
-
+    success "Ampcode installed"
 }
 
 install_cli() {
@@ -227,16 +222,7 @@ linux_desktop() {
     section "Setting up Linux Desktop Environment"
     
     install_core
-    install_ampcode
-    install_cli
-    install_gui
-    install_desktop_env
-    install_fonts
-    install_input_method
-    install_media
     install_python
-    install_tmux
-    install_atuin
     install_cpp
     install_lua
     install_rust
@@ -246,6 +232,15 @@ linux_desktop() {
     install_docker
     install_kubernetes
     install_containerd
+    install_ampcode
+    install_cli
+    install_gui
+    install_desktop_env
+    install_fonts
+    install_input_method
+    install_media
+    install_tmux
+    install_atuin
     install_utils
     
     success "Linux Desktop setup complete!"
@@ -255,13 +250,8 @@ wsl() {
     section "Setting up WSL Environment"
     
     install_core
-    install_ampcode
-    install_cli
     install_python
-    install_tmux
-    install_atuin
     install_cpp
-    install_lua
     install_rust
     install_go
     install_java
@@ -269,6 +259,11 @@ wsl() {
     install_docker
     install_kubernetes
     install_containerd
+    install_lua
+    install_ampcode
+    install_cli
+    install_tmux
+    install_atuin
     
     success "WSL setup complete!"
 }
