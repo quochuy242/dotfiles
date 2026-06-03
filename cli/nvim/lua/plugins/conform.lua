@@ -1,16 +1,16 @@
 return {
   {
-    "stevearc/conform.nvim",
-    event = { "BufWritePre" },
-    cmd = { "ConformInfo" },
+    'stevearc/conform.nvim',
+    event = { 'BufWritePre' },
+    cmd = { 'ConformInfo' },
     keys = {
       {
-        "<leader>F",
+        '<leader>F',
         function()
-          require("conform").format({ async = true, lsp_format = "fallback" })
+          require('conform').format { async = true, lsp_format = 'fallback' }
         end,
-        mode = "",
-        desc = "[F]ormat buffer",
+        mode = '',
+        desc = '[F]ormat buffer',
       },
     },
     opts = {
@@ -25,24 +25,24 @@ return {
         else
           return {
             timeout_ms = 500,
-            lsp_format = "fallback",
+            lsp_format = 'fallback',
           }
         end
       end,
       formatters_by_ft = {
-        lua = { "stylua" },
-        python = { "ruff_fix", "ruff_format", "ruff_organize_imports" },
-        go = { "gofmt" }, -- or 'goimports'
-        html = { "prettier" },
-        bash = { "shfmt" },
-        markdown = { "prettier" },
-        c_sharp = { "csharpier" }, -- dotnet tool
-        rust = { "rustfmt" },
-        sql = { "sqlfluff" },
-        toml = { "taplo" }, -- TOML formatter
-        yaml = { "prettier" },
-        just = { "just" }, -- justfile formatter
-        markdown_inline = { "prettier" },
+        lua = { 'stylua' },
+        python = { 'ruff_fix', 'ruff_format', 'ruff_organize_imports' },
+        go = { 'gofmt' }, -- or 'goimports'
+        html = { 'prettier' },
+        bash = { 'shfmt' },
+        markdown = { 'prettier' },
+        c_sharp = { 'csharpier' }, -- dotnet tool
+        rust = { 'rustfmt' },
+        sql = { 'sqlfluff' },
+        toml = { 'taplo' }, -- TOML formatter
+        yaml = { 'prettier' },
+        just = { 'just' }, -- justfile formatter
+        markdown_inline = { 'prettier' },
       },
     },
   },

@@ -1,42 +1,31 @@
 return {
   {
-    "Exafunction/windsurf.nvim",
+    'hrsh7th/nvim-cmp',
     dependencies = {
-      "nvim-lua/plenary.nvim",
-      "hrsh7th/nvim-cmp",
+      'hrsh7th/cmp-buffer', -- Completion from current buffer
+      'hrsh7th/cmp-path', -- Completion from filesystem paths
+      'hrsh7th/cmp-nvim-lsp', -- Completion from LSP
+      'hrsh7th/cmp-nvim-lua', -- Completion from Neovim Lua API
+      'hrsh7th/cmp-cmdline', -- Completion for command line
     },
     config = function()
-      require("codeium").setup({})
-    end,
-  },
-  {
-    "hrsh7th/nvim-cmp",
-    dependencies = {
-      "hrsh7th/cmp-buffer",   -- Completion from current buffer
-      "hrsh7th/cmp-path",     -- Completion from filesystem paths
-      "hrsh7th/cmp-nvim-lsp", -- Completion from LSP
-      "hrsh7th/cmp-nvim-lua", -- Completion from Neovim Lua API
-      "hrsh7th/cmp-cmdline",  -- Completion for command line
-    },
-    config = function()
-      local cmp = require("cmp")
+      local cmp = require 'cmp'
 
-      cmp.setup({
+      cmp.setup {
         -- Keymaps for completion
-        mapping = cmp.mapping.preset.insert({
-          ["<C-n>"] = cmp.mapping.select_next_item(),        -- Next suggestion
-          ["<C-p>"] = cmp.mapping.select_prev_item(),        -- Previous suggestion
-          ["<CR>"] = cmp.mapping.confirm({ select = true }), -- Confirm selection
-        }),
+        mapping = cmp.mapping.preset.insert {
+          ['<C-n>'] = cmp.mapping.select_next_item(), -- Next suggestion
+          ['<C-p>'] = cmp.mapping.select_prev_item(), -- Previous suggestion
+          ['<CR>'] = cmp.mapping.confirm { select = true }, -- Confirm selection
+        },
 
         -- Sources for completion
-        sources = cmp.config.sources({
-          { name = "nvim_lsp" }, -- LSP suggestions
-          { name = "buffer" },   -- Words from buffer
-          { name = "path" },     -- File paths
-          { name = "nvim_lua" }, -- Lua API for Neovim
-          { name = "codeium" },  -- AI completion
-        }),
+        sources = cmp.config.sources {
+          { name = 'nvim_lsp' }, -- LSP suggestions
+          { name = 'buffer' }, -- Words from buffer
+          { name = 'path' }, -- File paths
+          { name = 'nvim_lua' }, -- Lua API for Neovim
+        },
 
         -- Window appearance
         window = {
@@ -53,30 +42,29 @@ return {
         formatting = {
           format = function(entry, vim_item)
             vim_item.menu = ({
-              nvim_lsp = "",
-              buffer = "",
-              path = "󰉋",
-              nvim_lua = "󰢱",
-              codeium = "󱡄",
+              nvim_lsp = '',
+              buffer = '',
+              path = '󰉋',
+              nvim_lua = '󰢱',
             })[entry.source.name]
             return vim_item
           end,
         },
-      })
+      }
 
       -- Completion for search `/` in buffer
-      cmp.setup.cmdline("/", {
+      cmp.setup.cmdline('/', {
         mapping = cmp.mapping.preset.cmdline(),
-        sources = { { name = "buffer" } },
+        sources = { { name = 'buffer' } },
       })
 
       -- Completion for command line `:`
-      cmp.setup.cmdline(":", {
+      cmp.setup.cmdline(':', {
         mapping = cmp.mapping.preset.cmdline(),
         sources = cmp.config.sources({
-          { name = "cmdline" },
+          { name = 'cmdline' },
         }, {
-          { name = "path" },
+          { name = 'path' },
         }),
       })
     end,

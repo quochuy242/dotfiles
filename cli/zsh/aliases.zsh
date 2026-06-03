@@ -82,10 +82,7 @@ if [[ -x "$(command -v helix)" ]]; then
     alias hxdiff='helix -d'
 fi
 
-# Opencode and OCX
+# Opencode
 if [[ -x "$(command -v opencode)" ]]; then
-  alias oc='opencode'
-  if [[ -x "$(command -v ocx)" ]]; then
-      alias oc='ocx oc -p ws'
-  fi
+  alias oc='opencode --port 31794'
 fi
